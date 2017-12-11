@@ -1,0 +1,22 @@
+{% extends 'base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Provider add/edit </h2>
+
+{% endblock %}
+
+{% block content %}
+
+    <form action="{% url 'almacen:edit-provider' provider.pk %}" method="post">
+        {% csrf_token %}
+
+        <table>
+            {{ form }}
+        </table>
+
+        <input type="submit" value="Submit"/>
+
+    </form>
+
+{% endblock %}

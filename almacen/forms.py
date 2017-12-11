@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 # Contract related forms
-from almacen.models import Contract, Provider, StoredItem
+from almacen.models import Contract, Provider, StoredItem, Item
 
 
 class NewContractForm(forms.Form):
@@ -50,7 +50,7 @@ class NewOrEditProviderForm(forms.Form):
     name = forms.CharField()
     rif = forms.CharField(max_length=11)
     address = forms.CharField(widget=forms.Textarea())
-    phone_num = forms.CharField(max_length=12)
+    phone_num = forms.CharField(max_length=13)
     contract = forms.ModelChoiceField(queryset=Contract.objects.all())
 
     def clean_phone_num(self):
@@ -83,14 +83,14 @@ class NewOrEditItemForm(forms.Form):
 
 # Stored items related forms
 class NewOrEditStoredItemForm(forms.Form):
-    item = forms.ModelChoiceField(queryset=StoredItem.objects.all())
+    item = forms.ModelChoiceField(queryset=Item.objects.all())
     quantity = forms.IntegerField()
 
-    def clean_item(self):
-        item = self.cleaned_data['item']
-        storeds = map(lambda x: x.item, StoredItem.objects.all())
-        if item in storeds:
-            raise ValidationError(_("This item has already been stored - you only can change its quantity in the stock!"))
+    # def clean_item(self):
+    #     item = self.cleaned_data['item']
+    #     storeds = map(lambda x: x.item, StoredItem.objects.all())
+    #     if item in storeds:
+    #         raise ValidationError(_("This item has already been stored - you only can change its quantity in the stock!"))
 
     def clean_quantity(self):
         quantity = self.cleaned_data['quantity']

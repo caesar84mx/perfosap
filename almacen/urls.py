@@ -6,8 +6,8 @@ app_name = 'almacen'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     # Providers related urls
-    url(r'^provider/new/$', views.CreateProvider.as_view(), name='new-provider'),
-    url(r'^provider/(?P<pk>\d+)/edit$', views.UpdateProvider.as_view(), name='edit-provider'),
+    url(r'^provider/new/$', views.new_provider, name='new-provider'),
+    url(r'^provider/(?P<pk>\d+)/edit$', views.edit_provider, name='edit-provider'),
     url(r'^provider/(?P<pk>\d+)/delete$', views.DeleteProvider.as_view(), name='delete-provider'),
     url(r'^providers/$', views.ProviderListView.as_view(), name='providers'),
     url(r'^provider/(?P<pk>\d+)$', views.ProviderDetailView.as_view(), name='provider-detail'),
@@ -18,8 +18,8 @@ urlpatterns = [
     url(r'^items/$', views.ItemListView.as_view(), name='items'),
     url(r'^item/(?P<pk>\d+)$', views.ItemDetailView.as_view(), name='item-detail'),
     # Stored items related urls
-    url(r'^storeditem/new$', views.CreateStoredItem.as_view(), name='new-storeditem'),
-    url(r'^storeditem/(?P<pk>\d+)/edit$', views.UpdateStoredItem.as_view(), name='edit-storeditem'),
+    url(r'^storeditem/new$', views.new_storeditem, name='new-storeditem'),
+    url(r'^storeditem/(?P<pk>\d+)/edit$', views.edit_storeditem, name='edit-storeditem'),
     url(r'^storeditem/(?P<pk>\d+)/delete$', views.DeleteStoredItem.as_view(), name='delete-storeditem'),
     url(r'^storeditems/$', views.StoredItemListView.as_view(), name='storeditems'),
     url(r'^storeditem/(?P<pk>\d+)$', views.StoredItemDetailView.as_view(), name='storeditem-detail'),
