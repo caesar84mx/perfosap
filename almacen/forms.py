@@ -5,9 +5,8 @@ from django.core.exceptions import ValidationError
 from django.forms import SelectDateWidget
 from django.utils.translation import ugettext_lazy as _
 
-
 # Contract related forms
-from almacen.models import Contract, Provider, StoredItem, Item
+from almacen.models import Contract, Provider, Item
 
 
 class NewContractForm(forms.Form):

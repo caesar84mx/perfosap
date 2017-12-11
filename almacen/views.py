@@ -1,12 +1,11 @@
-from django.utils.decorators import method_decorator
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.auth.decorators import login_required, permission_required
-from django.shortcuts import render, get_object_or_404
-from django.views import generic
-
 import datetime
 
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.utils.decorators import method_decorator
+from django.views import generic
 # Create your views here.
 from django.views.generic import DeleteView, CreateView, UpdateView
 

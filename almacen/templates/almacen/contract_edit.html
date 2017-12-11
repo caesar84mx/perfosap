@@ -3,11 +3,11 @@
 {% block header %}
 
     <h2 id="center">Edit contract No. {{ contract.number }} </h2>
-    <h4><strong>{{ contract.name }} </strong></h4>
 
 {% endblock %}
 
 {% block content %}
+    <h4><strong>{{ contract.name }} </strong></h4>
     <form action="{% url 'almacen:edit-contract' contract.pk %}" method="post">
         {% csrf_token %}
 {#        {% load i18n admin_modify %}#}
