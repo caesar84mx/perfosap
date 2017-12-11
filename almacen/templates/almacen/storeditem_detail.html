@@ -1,0 +1,22 @@
+{% extends 'base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Stocked item details </h2>
+
+{% endblock %}
+
+{% block content %}
+
+    <p><strong>Serial: </strong> <a
+            href="{% url 'almacen:item-detail' storeditem.item.pk %}"> {{ storeditem.item.serial }} </a></p>
+    <p><strong>Name: </strong> {{ storeditem.item.name }} </p>
+    <p style="color: {% if storeditem.quantity == 0 %}#f75526{% endif %}"><strong>Quantity: </strong> {{ storeditem.quantity }} </p>
+
+    <p>
+        <a href="{% url 'almacen:edit-storeditem' storeditem.pk %}">Edit</a> |
+        <a href="{% url 'almacen:delete-storeditem' storeditem.pk %}">Delete</a>
+    </p>
+    <p><a href="{% url 'almacen:storeditems' %}">To stored items list</a></p>
+
+{% endblock %}

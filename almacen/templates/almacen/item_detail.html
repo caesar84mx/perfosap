@@ -1,0 +1,22 @@
+{% extends 'base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Item details </h2>
+
+{% endblock %}
+
+{% block content %}
+
+	<p><strong>Serial: </strong> {{ item.serial }} </p>
+	<p><strong>Name: </strong> {{ item.name }} </p>
+	<p><strong>Manufacturer: </strong> {{ item.manufacturer }} </p>
+    <p><strong>Provider: </strong> <a href="{% url 'almacen:provider-detail' item.provider.pk%}"> {{item.provider.name}}</a> </p>
+
+    <p>
+        <a href="{% url 'almacen:edit-item' item.pk %}">Edit</a> |
+        <a href="{% url 'almacen:delete-item' item.pk %}">Delete</a>
+    </p>
+    <p><a href="{% url 'almacen:items' %}">To items nomenclature list</a></p>
+
+{% endblock %}

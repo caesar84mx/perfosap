@@ -1,0 +1,29 @@
+{% extends 'base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Edit contract No. {{ contract.number }} </h2>
+    <h4><strong>{{ contract.name }} </strong></h4>
+
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'almacen:edit-contract' contract.pk %}" method="post">
+        {% csrf_token %}
+{#        {% load i18n admin_modify %}#}
+{#        {% block extrahead %}{{ block.super }}#}
+{#            {% load staticfiles %}#}
+{#            <link rel="stylesheet" type="text/css" , href="{% static 'admin/css/base.css' %}"/>#}
+{#            <link rel="stylesheet" type="text/css" , href="{% static 'admin/css/widgets.css' %}"/>#}
+{#            <script type="text/javascript" src="/jsi18n/"></script>#}
+{#            <script type="text/javascript" src="{% static '/admin/js/core.js' %}"></script>#}
+
+            <table>
+                {{ form }}
+            </table>
+
+{#        {% endblock %}#}
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

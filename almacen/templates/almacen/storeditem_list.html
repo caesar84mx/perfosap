@@ -1,0 +1,62 @@
+{% extends 'base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Stored items list </h2>
+
+{% endblock %}
+
+{% block content %}
+
+    <p><a href="{% url 'almacen:new-storeditem' %}">Add new</a></p>
+
+    {% if storeditem_list %}
+
+        <table style="width:100%">
+            <tr>
+                <th>Serial</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Manufacturer</th>
+                <th>Provider</th>
+            </tr>
+
+            {% for storeditem in storeditem_list %}
+
+                <tr style="color: {% if storeditem.quantity == 0 %}#f75526{% endif %}">
+                    <td>
+                        <a href="{% url 'almacen:storeditem-detail' storeditem.pk %}"> {{ storeditem.item.serial }} </a>
+                    </td>
+                    <td>{{ storeditem.item.name }}</td>
+                    <td>{{ storeditem.quantity }}</td>
+                    <td>{{ storeditem.item.manufacturer }}</td>
+                    <td>
+                        <a href="{% url 'almacen:provider-detail' storeditem.item.pk %}">{{ storeditem.item.provider.name }}</a>
+                    </td>
+                </tr>
+
+            {% endfor %}
+        </table>
+        {% if is_paginated %}
+
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}"><--</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">--></a>
+                    {% endif %}
+                </span>
+            </div>
+
+        {% endif %}
+
+    {% endif %}
+
+{% endblock %}

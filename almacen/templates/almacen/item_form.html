@@ -1,0 +1,22 @@
+{% extends 'base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Item add/edit </h2>
+
+{% endblock %}
+
+{% block content %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <table>
+            {{ form.as_table }}
+        </table>
+
+        <input type="submit" value="Submit"/>
+
+    </form>
+
+{% endblock %}
