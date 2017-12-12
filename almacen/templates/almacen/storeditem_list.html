@@ -31,7 +31,7 @@
                     <td>{{ storeditem.quantity }}</td>
                     <td>{{ storeditem.item.manufacturer }}</td>
                     <td>
-                        <a href="{% url 'almacen:provider-detail' storeditem.item.pk %}">{{ storeditem.item.provider.name }}</a>
+                        <a href="{% url 'almacen:provider-detail' storeditem.item.provider.pk %}">{{ storeditem.item.provider.name }}</a>
                     </td>
                 </tr>
 

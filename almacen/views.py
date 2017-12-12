@@ -11,6 +11,7 @@ from django.views.generic import DeleteView, CreateView, UpdateView
 
 from almacen.models import Contract, StoredItem, Provider, Item
 from .forms import EditContractForm, NewContractForm, NewOrEditProviderForm, NewOrEditStoredItemForm
+from .services import store_item
 
 
 def index(request):
@@ -69,6 +70,7 @@ def edit_contract(request, pk):
     return render(request, 'almacen/contract_edit.html', {'form': form, 'contract': contract})
 
 
+@method_decorator(login_required, name='dispatch')
 class DeleteContract(DeleteView):
     model = Contract
     success_url = reverse_lazy('almacen:contracts')
@@ -86,11 +88,7 @@ class ContractDetailView(generic.DetailView):
 
 
 # Provider related ------------------------------------------------------------------------
-# @method_decorator(login_required, name='dispatch')
-# class CreateProvider(CreateView):
-#     model = Provider
-#     fields = '__all__'
-
+@login_required
 def new_provider(request):
     if request.method == 'POST':
         form = NewOrEditProviderForm(request.POST)
@@ -109,6 +107,7 @@ def new_provider(request):
     return render(request, 'almacen/provider_new.html', {'form':form})
 
 
+@login_required
 def edit_provider(request, pk):
     provider = get_object_or_404(Provider, pk=pk)
     if request.method == 'POST':
@@ -131,11 +130,6 @@ def edit_provider(request, pk):
         })
 
     return render(request, 'almacen/provider_edit.html', {'form': form, 'provider': provider})
-
-# @method_decorator(login_required, name='dispatch')
-# class UpdateProvider(UpdateView):
-#     model = Provider
-#     fields = '__all__'
 
 
 @method_decorator(login_required, name='dispatch')
@@ -186,6 +180,7 @@ class ItemDetailView(generic.DetailView):
 
 
 # Stored items related ---------------------------------------------------------------------
+@login_required
 def new_storeditem(request):
     if request.method == 'POST':
         form = NewOrEditStoredItemForm(request.POST)
@@ -193,7 +188,7 @@ def new_storeditem(request):
             storeditem = StoredItem()
             storeditem.item = form.cleaned_data['item']
             storeditem.quantity = form.cleaned_data['quantity']
-            storeditem.save()
+            store_item(storeditem)
             return HttpResponseRedirect(reverse('almacen:storeditems'))
     else:
         form = NewOrEditStoredItemForm()
@@ -201,6 +196,7 @@ def new_storeditem(request):
     return render(request, 'almacen/storeditem_new.html', {'form':form})
 
 
+@login_required
 def edit_storeditem(request, pk):
     storeditem = get_object_or_404(StoredItem, pk=pk)
     if request.method == 'POST':
@@ -217,16 +213,6 @@ def edit_storeditem(request, pk):
         })
 
     return render(request, 'almacen/storeditem_edit.html', {'form': form, 'storeditem': storeditem})
-# @method_decorator(login_required, name='dispatch')
-# class CreateStoredItem(CreateView):
-#     model = StoredItem
-#     fields = '__all__'
-#
-#
-# @method_decorator(login_required, name='dispatch')
-# class UpdateStoredItem(UpdateView):
-#     model = StoredItem
-#     fields = '__all__'
 
 
 @method_decorator(login_required, name='dispatch')
