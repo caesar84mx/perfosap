@@ -1,16 +1,15 @@
-import datetime
-
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import generic
 # Create your views here.
-from django.views.generic import DeleteView, CreateView, UpdateView
+from django.views.generic import DeleteView
 
-from almacen.models import Contract, StoredItem, Provider, Item
-from .forms import EditContractForm, NewContractForm, NewOrEditProviderForm, NewOrEditStoredItemForm
+from almacen.models import StoredItem
+from procura.models import Provider
+from .forms import NewOrEditStoredItemForm
 from .services import store_item
 
 
@@ -19,164 +18,11 @@ def index(request):
     providers_num = Provider.objects.all().count()
 
     return render(request,
-                  'index.html',
+                  'almacen_static_pages/index.html',
                   context={
                       'stored_items_num': stored_items_num,
                       'providers_num': providers_num
                   })
-
-
-# Contract related ------------------------------------------------------------------------
-@permission_required('almacen.create_contract')
-def new_contract(request):
-    if request.method == 'POST':
-        form = NewContractForm(request.POST)
-        if form.is_valid():
-            contract = Contract()
-            contract.number = form.cleaned_data['number']
-            contract.name = form.cleaned_data['name']
-            contract.description = form.cleaned_data['description']
-            contract.start_date = form.cleaned_data['start_date']
-            contract.expiry_date = form.cleaned_data['expiry_date']
-            contract.save()
-            return HttpResponseRedirect(reverse('almacen:contracts'))
-    else:
-        today = datetime.date.today()
-        form = NewContractForm(initial={
-            'start_date': today,
-            'expiry_date': datetime.date(today.year + 1, today.month, today.day)
-        })
-        return render(request, 'almacen/contract_new.html', {'form':form})
-
-
-@permission_required('almacen.change_contract')
-def edit_contract(request, pk):
-    contract = get_object_or_404(Contract, pk=pk)
-    if request.method == 'POST':
-        form = EditContractForm(request.POST)
-        if form.is_valid():
-            contract.description = form.cleaned_data['description']
-            contract.start_date = form.cleaned_data['start_date']
-            contract.expiry_date = form.cleaned_data['expiry_date']
-            contract.save()
-            return HttpResponseRedirect(reverse('almacen:contract-detail', args=[pk]))
-    else:
-        today = datetime.date.today()
-        form = EditContractForm(initial={
-            'description': contract.description,
-            'start_date': today,
-            'expiry_date': contract.expiry_date
-        })
-    return render(request, 'almacen/contract_edit.html', {'form': form, 'contract': contract})
-
-
-@method_decorator(login_required, name='dispatch')
-class DeleteContract(DeleteView):
-    model = Contract
-    success_url = reverse_lazy('almacen:contracts')
-
-
-@method_decorator(login_required, name='dispatch')
-class ContractListView(generic.ListView):
-    model = Contract
-    paginate_by = 10
-
-
-@method_decorator(login_required, name='dispatch')
-class ContractDetailView(generic.DetailView):
-    model = Contract
-
-
-# Provider related ------------------------------------------------------------------------
-@login_required
-def new_provider(request):
-    if request.method == 'POST':
-        form = NewOrEditProviderForm(request.POST)
-        if form.is_valid():
-            provider = Provider()
-            provider.name = form.cleaned_data['name']
-            provider.rif = form.cleaned_data['rif']
-            provider.address = form.cleaned_data['address']
-            provider.phone_num = form.cleaned_data['phone_num']
-            provider.contract = form.cleaned_data['contract']
-            provider.save()
-            return HttpResponseRedirect(reverse('almacen:providers'))
-    else:
-        form = NewOrEditProviderForm()
-
-    return render(request, 'almacen/provider_new.html', {'form':form})
-
-
-@login_required
-def edit_provider(request, pk):
-    provider = get_object_or_404(Provider, pk=pk)
-    if request.method == 'POST':
-        form = NewOrEditProviderForm(request.POST)
-        if form.is_valid():
-            provider.name = form.cleaned_data['name']
-            provider.rif = form.cleaned_data['rif']
-            provider.address = form.cleaned_data['address']
-            provider.phone_num = form.cleaned_data['phone_num']
-            provider.contract = form.cleaned_data['contract']
-            provider.save()
-            return HttpResponseRedirect(reverse('almacen:provider-detail', args=[pk]))
-    else:
-        form = NewOrEditProviderForm(initial={
-            'name': provider.name,
-            'rif': provider.rif,
-            'address': provider.address,
-            'phone_num': provider.phone_num,
-            'contract': provider.contract
-        })
-
-    return render(request, 'almacen/provider_edit.html', {'form': form, 'provider': provider})
-
-
-@method_decorator(login_required, name='dispatch')
-class DeleteProvider(DeleteView):
-    model = Provider
-    success_url = reverse_lazy('almacen:providers')
-
-
-@method_decorator(login_required, name='dispatch')
-class ProviderListView(generic.ListView):
-    model = Provider
-    paginate_by = 10
-
-
-@method_decorator(login_required, name='dispatch')
-class ProviderDetailView(generic.DetailView):
-    model = Provider
-
-
-# Items nomenclature related --------------------------------------------------------------
-@method_decorator(login_required, name='dispatch')
-class CreateItem(CreateView):
-    model = Item
-    fields = '__all__'
-
-
-@method_decorator(login_required, name='dispatch')
-class UpdateItem(UpdateView):
-    model = Item
-    fields = '__all__'
-
-
-@method_decorator(login_required, name='dispatch')
-class DeleteItem(DeleteView):
-    model = Item
-    success_url = reverse_lazy('almacen:items')
-
-
-@method_decorator(login_required, name='dispatch')
-class ItemListView(generic.ListView):
-    model = Item
-    paginate_by = 10
-
-
-@method_decorator(login_required, name='dispatch')
-class ItemDetailView(generic.DetailView):
-    model = Item
 
 
 # Stored items related ---------------------------------------------------------------------

@@ -1,0 +1,60 @@
+{% extends 'procura_static_pages/procura_base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Item nomenclature list </h2>
+
+{% endblock %}
+
+{% block content %}
+
+    <p><a href="{% url 'procura:new-item' %}">Add new</a></p>
+	
+	{% if item_list %}
+	
+		<table style="width:100%">
+			<tr>
+				<th>Serial</th>
+				<th>Name</th>
+				<th>Manufacturer</th>
+				<th>Provider</th>
+			</tr>
+
+			{% for item in item_list %}
+			
+			<tr>
+				<td>
+				<a href="{% url 'procura:item-detail' item.pk%}"> {{ item.serial }} </a>
+				</td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.manufacturer }}</td>
+				<td>
+                    <a href="{% url 'procura:provider-detail' item.provider.pk %}"> {{ item.provider.name }} </a>
+                </td>
+			</tr>
+			
+			{% endfor %}
+		</table>
+        {% if is_paginated %}
+
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}"><--</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">--></a>
+                    {% endif %}
+                </span>
+            </div>
+
+         {% endif %}
+	
+	{% endif %}
+
+{% endblock %}

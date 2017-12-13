@@ -1,0 +1,21 @@
+{% extends 'procura_static_pages/procura_base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Edit contract No. {{ contract.number }} </h2>
+
+{% endblock %}
+
+{% block content %}
+    <h4><strong>{{ contract.name }} </strong></h4>
+    <form action="{% url 'procura:edit-contract' contract.pk %}" method="post">
+        {% csrf_token %}
+
+        <table>
+            {{ form }}
+        </table>
+
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

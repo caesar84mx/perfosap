@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% block title %}<title>Almacen Application</title>{% endblock %}
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+<header id="center">
+    <div style="text-align: right">
+        {% if user.is_authenticated %}
+            {{ user.get_username }}
+            -
+            <a href="{% url 'logout' %}?next={{ request.path }}">logout</a>
+        {% else %}
+            <p><a href="{% url 'login' %}?next={{ request.path }}">Login</a></p>
+        {% endif %}
+        <h2 id="center">Welcome to PerfoSAP Package!</h2>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-2 sidenav">
+                <h4>Options: </h4>
+                {% block sidebar %}
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{% url 'almacen:alm-index' %}">Almacen</a></li>
+                        <li><a href="{% url 'procura:proc-index' %}">Procura</a></li>
+                    </ul>
+                {% endblock %}
+            </div>
+            <div class="col-sm-9 ">
+                <br>
+                {% block content %}
+                    <p>
+                        Glad to see you in the PerfoSAP Package!<br>
+                        This application is designed to ease your work and records in the company. Please, use the
+                        navigation
+                        bar for work:<br>
+                    </p>
+
+                    <li>Almacen menu to move to Almacen App</li>
+                    <li>Procura menu to move to Procura App</li>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+<footer id="center" class="container-fluid">
+    <p>
+        PerfoSAP Package<br>
+        For Perforosven, S.A<br>
+        created by caesar_84
+    </p>
+</footer>
+</body>
+</html>

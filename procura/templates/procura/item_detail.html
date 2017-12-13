@@ -1,0 +1,22 @@
+{% extends 'procura_static_pages/procura_base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Item details </h2>
+
+{% endblock %}
+
+{% block content %}
+
+	<p><strong>Serial: </strong> {{ item.serial }} </p>
+	<p><strong>Name: </strong> {{ item.name }} </p>
+	<p><strong>Manufacturer: </strong> {{ item.manufacturer }} </p>
+    <p><strong>Provider: </strong> <a href="{% url 'procura:provider-detail' item.provider.pk%}"> {{item.provider.name}}</a> </p>
+
+    <p>
+        <a href="{% url 'procura:edit-item' item.pk %}">Edit</a> |
+        <a href="{% url 'procura:delete-item' item.pk %}">Delete</a>
+    </p>
+    <p><a href="{% url 'procura:items' %}">To items nomenclature list</a></p>
+
+{% endblock %}

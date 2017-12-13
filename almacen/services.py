@@ -1,12 +1,10 @@
-from .models import StoredItem, Item
+from .models import StoredItem
 
 
-def store_item(stored_item=StoredItem):
-    item = StoredItem.objects.get(item=stored_item.item)
-    print(item)
-    if item:
+def store_item(stored_item):
+    try:
+        item = StoredItem.objects.get(item=stored_item.item)
         item.quantity += stored_item.quantity
         item.save()
-    else:
+    except StoredItem.DoesNotExist:
         stored_item.save()
-

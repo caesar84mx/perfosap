@@ -1,4 +1,4 @@
-{% extends 'base_template.html' %}
+{% extends 'almacen_static_pages/almacen_base_template.html' %}
 
 {% block header %}
 
@@ -31,7 +31,7 @@
                     <td>{{ storeditem.quantity }}</td>
                     <td>{{ storeditem.item.manufacturer }}</td>
                     <td>
-                        <a href="{% url 'almacen:provider-detail' storeditem.item.provider.pk %}">{{ storeditem.item.provider.name }}</a>
+                        <a href="{% url 'procura:provider-detail' storeditem.item.provider.pk %}">{{ storeditem.item.provider.name }}</a>
                     </td>
                 </tr>
 

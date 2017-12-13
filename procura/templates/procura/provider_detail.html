@@ -1,0 +1,23 @@
+{% extends 'procura_static_pages/procura_base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Provider details </h2>
+
+{% endblock %}
+
+{% block content %}
+	
+	<p><strong>Name: </strong> {{ provider.name }} </p>
+	<p><strong>Rif: </strong> {{ provider.rif }} </p>
+	<p><strong>Phone: </strong> {{provider.phone_num}} </p>
+	<p><strong>Address: </strong> {{ provider.address }} </p>
+	<p><strong>Contract: </strong> <a href="{% url 'procura:contract-detail' provider.contract.pk %}"> {{ provider.contract.number }} </a> </p>
+
+    <p>
+        <a href="{% url 'procura:edit-provider' provider.pk %}">Edit</a> |
+        <a href="{% url 'procura:delete-provider' provider.pk %}">Delete</a>
+    </p>
+    <p><a href="{% url 'procura:providers' %}">To providers list</a></p>
+
+{% endblock %}

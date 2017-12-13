@@ -1,0 +1,61 @@
+{% extends 'procura_static_pages/procura_base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Edit contract No. {{ contract.number }} </h2>
+    <h4><strong>{{ contract.name }} </strong></h4>
+
+{% endblock %}
+
+{% block content %}
+
+    <p><a href="{% url 'procura:new-contract' %}">Add new</a></p>
+    {% if contract_list %}
+
+        <table style="width:100%">
+            <tr style="text-align:center">
+                <th>No.</th>
+                <th>Name</th>
+                <th>Starts</th>
+                <th>Expires</th>
+            </tr>
+
+            {% for contract in contract_list %}
+
+                <tr style="color:{% if contract.is_expired %} #f75526 {% endif %}">
+                    <td>
+                        <a href="{% url 'procura:contract-detail' contract.pk %}"> {{ contract.number }} </a>
+                    </td>
+                    <td>{{ contract.name }}</td>
+                    <td>{{ contract.start_date }}</td>
+                    <td>
+                        {% if contract.expiry_date == None %} Indefinite {% else %}
+                            {{ contract.expiry_date }} {% endif %}
+                    </td>
+                </tr>
+
+            {% endfor %}
+        </table>
+        {% if is_paginated %}
+
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}"><--</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">--></a>
+                    {% endif %}
+                </span>
+            </div>
+
+        {% endif %}
+
+    {% endif %}
+
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'base_template.html' %}
+{% extends 'almacen_static_pages/almacen_base_template.html' %}
 
 {% block header %}
 
@@ -9,7 +9,7 @@
 {% block content %}
 
     <p><strong>Serial: </strong> <a
-            href="{% url 'almacen:item-detail' storeditem.item.pk %}"> {{ storeditem.item.serial }} </a></p>
+            href="{% url 'procura:item-detail' storeditem.item.pk %}"> {{ storeditem.item.serial }} </a></p>
     <p><strong>Name: </strong> {{ storeditem.item.name }} </p>
     <p style="color: {% if storeditem.quantity == 0 %}#f75526{% endif %}"><strong>Quantity: </strong> {{ storeditem.quantity }} </p>
 

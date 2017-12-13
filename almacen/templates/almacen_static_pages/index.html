@@ -1,0 +1,30 @@
+{% extends 'almacen_static_pages/almacen_base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Welcome to Almacen Application!</h2>
+
+{% endblock %}
+
+{% block content %}
+
+
+    <p>
+        Glad to see you in the Almacen Application!<br>
+        This application is designed to ease your work with stored materials and components. Please, use the navigation
+        bar for work:<br>
+    </p>
+    <p>
+    <li>Store menu to handle the items movements</li>
+    </p>
+    <p>
+        Actually, there {% if stored_items_num > 1 %} are {% else %} is {% endif %}
+
+        {{ stored_items_num }} stock {% if stored_items_num > 1 %} items {% else %} item {% endif %}
+
+        in the store from {{ providers_num }}
+
+        {% if providers_num > 1 %} providers {% else %} provider {% endif %}
+    </p>
+
+{% endblock %}

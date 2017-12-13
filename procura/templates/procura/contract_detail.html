@@ -1,0 +1,22 @@
+{% extends 'procura_static_pages/procura_base_template.html' %}
+
+{% block header %}
+
+    <h2 id="center">Contract details</h2>
+
+{% endblock %}
+
+{% block content %}
+
+	<p><strong>Contract No.: </strong> {{ contract.number }} </p>
+	<p><strong>Name: </strong> {{ contract.name }} </p>
+	<p><strong>Starts: </strong> {{ contract.start_date }} </p>
+	<p style="color: {% if contract.is_expired %}#f75526{% endif %}"><strong>{% if contract.is_expired %}Expired{% else %}Expires {% endif %}: </strong> {% if contract.expiry_date == None %} Indefinite {% else %} {{contract.expiry_date}} {% endif %} </p>
+	<p><strong>Description: </strong> {{ contract.description }} </p>
+    <p>
+        <a href="{% url 'procura:edit-contract' contract.pk %}">Edit</a> |
+        <a href="{% url 'procura:delete-contract' contract.pk %}">Delete</a>
+    </p>
+    <p><a href="{% url 'procura:contracts' %}">To contracts list</a></p>
+
+{% endblock %}
