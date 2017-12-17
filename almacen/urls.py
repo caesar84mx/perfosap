@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'almacen'
 urlpatterns = [
-    url(r'^$', views.index, name='alm-index'),
+    url(r'^$', views.index, name='index'),
     # Stored items related urls
     url(r'^storeditem/new$', views.new_storeditem, name='new-storeditem'),
     url(r'^storeditem/(?P<pk>\d+)/edit$', views.edit_storeditem, name='edit-storeditem'),

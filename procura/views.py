@@ -2,7 +2,7 @@ import datetime
 
 from django.contrib.auth.decorators import permission_required, login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, render_to_response
 
 # Create your views here.
 from django.urls import reverse, reverse_lazy
@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.generic import DeleteView, CreateView, UpdateView
 
+from procura.filters import ContractFilter
 from procura.forms import NewContractForm, EditContractForm, NewOrEditProviderForm
 from procura.models import Contract, Provider, Item
 
@@ -67,10 +68,15 @@ class DeleteContract(DeleteView):
     success_url = reverse_lazy('procura:contracts')
 
 
-@method_decorator(login_required, name='dispatch')
-class ContractListView(generic.ListView):
-    model = Contract
-    paginate_by = 10
+# @method_decorator(login_required, name='dispatch')
+# class ContractListView(generic.ListView):
+#     model = Contract
+#     paginate_by = 10
+
+def contract_filter(request):
+    f = ContractFilter(request.GET, queryset=Contract.objects.all())
+    return render_to_response('procura/contract_list.html', {'filter': f})
+
 
 
 @method_decorator(login_required, name='dispatch')
