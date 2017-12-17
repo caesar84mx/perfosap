@@ -10,13 +10,13 @@ urlpatterns = [
     url(r'^provider/new/$', procura.views.new_provider, name='new-provider'),
     url(r'^provider/(?P<pk>\d+)/edit$', procura.views.edit_provider, name='edit-provider'),
     url(r'^provider/(?P<pk>\d+)/delete$', procura.views.DeleteProvider.as_view(), name='delete-provider'),
-    url(r'^providers/$', procura.views.provider_filter, name='providers'),
+    url(r'^providers$', procura.views.provider_filter, name='providers'),
     url(r'^provider/(?P<pk>\d+)$', procura.views.ProviderDetailView.as_view(), name='provider-detail'),
     # Items nomenclature related urls
     url(r'^item/new$', procura.views.CreateItem.as_view(), name='new-item'),
     url(r'^item/(?P<pk>\d+)/edit$', procura.views.UpdateItem.as_view(), name='edit-item'),
     url(r'^item/(?P<pk>\d+)/delete$', procura.views.DeleteItem.as_view(), name='delete-item'),
-    url(r'^items/$', procura.views.item_filter, name='items'),
+    url(r'^items$', procura.views.item_filter, name='items'),
     url(r'^item/(?P<pk>\d+)$', procura.views.ItemDetailView.as_view(), name='item-detail'),
     # Contracts related urls
     url(r'^contracts$', procura.views.contract_filter, name='contracts'),
