@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^item/new$', procura.views.CreateItem.as_view(), name='new-item'),
     url(r'^item/(?P<pk>\d+)/edit$', procura.views.UpdateItem.as_view(), name='edit-item'),
     url(r'^item/(?P<pk>\d+)/delete$', procura.views.DeleteItem.as_view(), name='delete-item'),
-    url(r'^items/$', procura.views.ItemListView.as_view(), name='items'),
+    url(r'^items/$', procura.views.item_filter, name='items'),
     url(r'^item/(?P<pk>\d+)$', procura.views.ItemDetailView.as_view(), name='item-detail'),
     # Contracts related urls
     url(r'^contracts$', procura.views.contract_filter, name='contracts'),

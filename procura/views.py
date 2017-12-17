@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.generic import DeleteView, CreateView, UpdateView
 
-from procura.filters import ContractFilter, ProviderFilter
+from procura.filters import ContractFilter, ProviderFilter, ItemsNomenclatureFilter
 from procura.forms import NewContractForm, EditContractForm, NewOrEditProviderForm
 from procura.models import Contract, Provider, Item
 
@@ -169,10 +169,15 @@ class DeleteItem(DeleteView):
     success_url = reverse_lazy('procura:items')
 
 
-@method_decorator(login_required, name='dispatch')
-class ItemListView(generic.ListView):
-    model = Item
-    paginate_by = 10
+# @method_decorator(login_required, name='dispatch')
+# class ItemListView(generic.ListView):
+#     model = Item
+#     paginate_by = 10
+
+@login_required()
+def item_filter(request):
+    f = ItemsNomenclatureFilter(request.GET, queryset=Item.objects.all())
+    return render_to_response('procura/item_list.html', {'filter': f})
 
 
 @method_decorator(login_required, name='dispatch')

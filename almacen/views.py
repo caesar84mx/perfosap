@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.utils.decorators import method_decorator
 from django.views import generic
 # Create your views here.
 from django.views.generic import DeleteView
 
+from almacen.filters import StoredItemsFilter
 from almacen.models import StoredItem
 from procura.models import Provider
 from .forms import NewOrEditStoredItemForm
@@ -67,10 +68,17 @@ class DeleteStoredItem(DeleteView):
     success_url = reverse_lazy('almacen:storeditems')
 
 
-@method_decorator(login_required, name='dispatch')
-class StoredItemListView(generic.ListView):
-    model = StoredItem
-    paginate_by = 10
+# @method_decorator(login_required, name='dispatch')
+# class StoredItemListView(generic.ListView):
+#     model = StoredItem
+#     paginate_by = 10
+
+
+@login_required()
+def storeditem_filter(request):
+    f = StoredItemsFilter(request.GET, queryset=StoredItem.objects.all())
+    return render_to_response('almacen/storeditem_list.html', {'filter': f})
+
 
 
 @method_decorator(login_required, name='dispatch')

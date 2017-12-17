@@ -2,7 +2,7 @@ import django_filters
 from django.forms import SelectDateWidget
 from django.forms.fields import DateField
 
-from procura.models import Contract, Provider
+from procura.models import Contract, Provider, Item
 
 
 class SelectDateField(DateField):
@@ -31,3 +31,14 @@ class ProviderFilter(django_filters.FilterSet):
     class Meta:
         model = Provider
         fields = ['name', 'rif', 'contract']
+
+
+class ItemsNomenclatureFilter(django_filters.FilterSet):
+    serial = django_filters.CharFilter(label='Serial No.', lookup_expr='istartswith')
+    name = django_filters.CharFilter(label='Name', lookup_expr='icontains')
+    manufacturer = django_filters.CharFilter(label='Manufacturer', lookup_expr='icontains')
+    provider = django_filters.CharFilter(name='provider__name', label='Provider', lookup_expr='icontains')
+
+    class Meta:
+        model = Item
+        fields = ['serial', 'name', 'manufacturer', 'provider']
