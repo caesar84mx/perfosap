@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.generic import DeleteView, CreateView, UpdateView
 
-from procura.filters import ContractFilter
+from procura.filters import ContractFilter, ProviderFilter
 from procura.forms import NewContractForm, EditContractForm, NewOrEditProviderForm
 from procura.models import Contract, Provider, Item
 
@@ -73,6 +73,7 @@ class DeleteContract(DeleteView):
 #     model = Contract
 #     paginate_by = 10
 
+@login_required()
 def contract_filter(request):
     f = ContractFilter(request.GET, queryset=Contract.objects.all())
     return render_to_response('procura/contract_list.html', {'filter': f})
@@ -134,10 +135,15 @@ class DeleteProvider(DeleteView):
     success_url = reverse_lazy('procura:providers')
 
 
-@method_decorator(login_required, name='dispatch')
-class ProviderListView(generic.ListView):
-    model = Provider
-    paginate_by = 10
+# @method_decorator(login_required, name='dispatch')
+# class ProviderListView(generic.ListView):
+#     model = Provider
+#     paginate_by = 10
+
+@login_required()
+def provider_filter(request):
+    f = ProviderFilter(request.GET, queryset=Provider.objects.all())
+    return render_to_response('procura/provider_list.html', {'filter': f})
 
 
 @method_decorator(login_required, name='dispatch')

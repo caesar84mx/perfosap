@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^provider/new/$', procura.views.new_provider, name='new-provider'),
     url(r'^provider/(?P<pk>\d+)/edit$', procura.views.edit_provider, name='edit-provider'),
     url(r'^provider/(?P<pk>\d+)/delete$', procura.views.DeleteProvider.as_view(), name='delete-provider'),
-    url(r'^providers/$', procura.views.ProviderListView.as_view(), name='providers'),
+    url(r'^providers/$', procura.views.provider_filter, name='providers'),
     url(r'^provider/(?P<pk>\d+)$', procura.views.ProviderDetailView.as_view(), name='provider-detail'),
     # Items nomenclature related urls
     url(r'^item/new$', procura.views.CreateItem.as_view(), name='new-item'),
